@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>aTom</title>
+  <link rel="stylesheet" href="style.css" />
+
+  <!-- Carica il font Bison.ttf -->
+  <style>
+    @font-face {
+      font-family: 'Bison';
+      src: url('Bison.ttf') format('truetype');
+    }
+
+    body {
+      font-family: 'Bison', sans-serif;
+      text-align: center;
+      background-color: #edeced;
+      padding: 20px;
+    }
+    h1 {
+      margin-bottom: 30px;
+    }
+    .grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(120px, 1fr));
+      gap: 10px;
+      max-width: 800px;
+      margin: 0 auto;
+    }
+    button {
+      padding: 10px 15px;
+      border: none;
+      background-color: #333;
+      color: white;
+      font-size: 16px;
+      font-family: 'Bison', sans-serif; /* Usa il font Bison anche per i bottoni */
+      border-radius: 10px;
+      cursor: pointer;
+      transition: background-color 0.3s;
+    }
+    button:hover {
+      background-color: #555;
+    }
+  </style>
+</head>
+<body>
+  <h1>Scegli il tuo nome</h1>
+  <div class="grid">
+    <!-- Pulsanti generati dinamicamente -->
+    <button onclick="location.href='pagina.html?nome=Alberto'">Alberto</button>
+    <button onclick="location.href='pagina.html?nome=Alessia'">Alessia</button>
+    <button onclick="location.href='pagina.html?nome=Alice'">Alice</button>
+    <button onclick="location.href='pagina.html?nome=Andrea'">Andrea</button>
+    <button onclick="location.href='pagina.html?nome=Brigida'">Brigida</button>
+    <button onclick="location.href='pagina.html?nome=Claudia'">Claudia</button>
+    <button onclick="location.href='pagina.html?nome=Elena'">Elena</button>
+    <button onclick="location.href='pagina.html?nome=Filippo'">Filippo</button>
+    <button onclick="location.href='pagina.html?nome=Gianluca'">Gianluca</button>
+    <button onclick="location.href='pagina.html?nome=Irene'">Irene</button>
+    <button onclick="location.href='pagina.html?nome=James'">James</button>
+    <button onclick="location.href='pagina.html?nome=Manuele'">Manuele</button>
+    <button onclick="location.href='pagina.html?nome=Martina'">Martina</button>
+    <button onclick="location.href='pagina.html?nome=Mattia'">Mattia</button>
+    <button onclick="location.href='pagina.html?nome=Patrick'">Patrick</button>
+    <button onclick="location.href='pagina.html?nome=Rachele'">Rachele</button>
+    <button onclick="location.href='pagina.html?nome=Riccardo'">Riccardo</button>
+    <button onclick="location.href='pagina.html?nome=Silvia'">Silvia</button>
+    <button onclick="location.href='pagina.html?nome=Sveva'">Sveva</button>
+    <button onclick="location.href='pagina.html?nome=Vittorio'">Vittorio</button>
+  </div>
+</body>
+</html>

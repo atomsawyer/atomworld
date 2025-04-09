@@ -1,0 +1,219 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Il tuo nome in geroglifici</title>
+  <style>
+    /* Carica il font Bison.ttf */
+    @font-face {
+      font-family: 'Bison';
+      src: url('Bison.ttf') format('truetype');
+    }
+
+    body {
+      font-family: 'Bison', sans-serif;
+      text-align: center;
+      background-color: #f0f0f0;
+      padding: 20px;
+    }
+    svg {
+      max-width: 90vw;
+      height: auto;
+    }
+    .color-options {
+      margin-top: 20px;
+    }
+    .color-swatch {
+      display: inline-block;
+      width: 30px;
+      height: 30px;
+      border-radius: 50%;
+      margin: 5px;
+      cursor: pointer;
+      border: 2px solid #ccc;
+    }
+    #downloadBtn {
+      font-family: 'Bison', sans-serif;
+      margin-top: 20px;
+      margin-bottom: 40px; /* <-- aggiunto */
+      padding: 10px 20px;
+      font-size: 16px;
+      background-color: #333;
+      color: white;
+      border: none;
+      border-radius: 10px;
+      cursor: pointer;
+    }
+    .controls {
+      display: flex;
+      justify-content: center;
+      gap: 20px;
+      margin-bottom: 20px;
+    }
+
+    h1 {
+      font-family: 'Bison', sans-serif;
+    }
+
+    /* Layout dei bottoni */
+    .grid {
+      display: grid;
+      grid-template-columns: repeat(10, 1fr); /* Dieci bottoni per riga */
+      gap: 10px;
+      margin-top: 30px;
+    }
+
+    button {
+      font-family: 'Bison', sans-serif;
+      padding: 10px 15px;
+      border: none;
+      background-color: #333;
+      color: white;
+      font-size: 16px;
+      border-radius: 10px;
+      cursor: pointer;
+      transition: background-color 0.3s;
+    }
+    button:hover {
+      background-color: #555;
+    }
+
+  </style>
+</head>
+<body>
+  <h1 id="titolo"></h1>
+
+  <div class="color-options">
+    <h3>Colore sfondo</h3>
+    <div id="bgColors"></div>
+  </div>
+
+  <div class="controls">
+    <div class="color-options">
+      <h3>Colore nome</h3>
+      <div id="textColors"></div>
+    </div>
+
+  </div>
+
+  <!-- Bottone per il download sotto la scelta dei colori -->
+  <button id="downloadBtn">Scarica PNG</button>
+
+  <div id="svgContainer"></div>
+
+  <div class="grid">
+    <!-- Pulsanti generati dinamicamente -->
+    <button onclick="location.href='pagina.html?nome=Alberto'">Alberto</button>
+    <button onclick="location.href='pagina.html?nome=Alessia'">Alessia</button>
+    <button onclick="location.href='pagina.html?nome=Alice'">Alice</button>
+    <button onclick="location.href='pagina.html?nome=Andrea'">Andrea</button>
+    <button onclick="location.href='pagina.html?nome=Brigida'">Brigida</button>
+    <button onclick="location.href='pagina.html?nome=Claudia'">Claudia</button>
+    <button onclick="location.href='pagina.html?nome=Elena'">Elena</button>
+    <button onclick="location.href='pagina.html?nome=Filippo'">Filippo</button>
+    <button onclick="location.href='pagina.html?nome=Gianluca'">Gianluca</button>
+    <button onclick="location.href='pagina.html?nome=Irene'">Irene</button>
+    <!-- Seconda riga di bottoni -->
+    <button onclick="location.href='pagina.html?nome=James'">James</button>
+    <button onclick="location.href='pagina.html?nome=Manuele'">Manuele</button>
+    <button onclick="location.href='pagina.html?nome=Martina'">Martina</button>
+    <button onclick="location.href='pagina.html?nome=Mattia'">Mattia</button>
+    <button onclick="location.href='pagina.html?nome=Patrick'">Patrick</button>
+    <button onclick="location.href='pagina.html?nome=Rachele'">Rachele</button>
+    <button onclick="location.href='pagina.html?nome=Riccardo'">Riccardo</button>
+    <button onclick="location.href='pagina.html?nome=Silvia'">Silvia</button>
+    <button onclick="location.href='pagina.html?nome=Sveva'">Sveva</button>
+    <button onclick="location.href='pagina.html?nome=Vittorio'">Vittorio</button>
+  </div>
+
+  <script>
+    const params = new URLSearchParams(window.location.search);
+    const nome = params.get('nome');
+    document.getElementById('titolo').innerText = nome;
+
+    let svgElement = null;
+
+    fetch(`immagini/${nome}.svg`)
+      .then(response => response.text())
+      .then(svgText => {
+        const parser = new DOMParser();
+        const svgDoc = parser.parseFromString(svgText, "image/svg+xml");
+        svgElement = svgDoc.querySelector("svg");
+        svgElement.id = "nomeSVG";
+        svgElement.setAttribute("style", "color: black");
+        document.getElementById("svgContainer").appendChild(svgElement);
+      });
+
+    const colori = [
+    '#191919', '#36454F', '#00008B', '#228CDB', '#ADD8E6',
+    '#81559B', '#9b59b6','#800000','#C70039', '#FF69B4',
+    '#6F1A07', '#A0522D', '#b1917e', '#F5F5DC', '#ffd700',
+    '#2E8B57', '#00b894', '#89CC04', '#edeced', 'white'
+    ];
+
+    const creaPalette = (targetId, onClick) => {
+      const container = document.getElementById(targetId);
+      colori.forEach(colore => {
+        const swatch = document.createElement("div");
+        swatch.className = "color-swatch";
+        swatch.style.backgroundColor = colore;
+        swatch.onclick = () => onClick(colore);
+        container.appendChild(swatch);
+      });
+    };
+
+    // Cambia il colore della scritta nell'SVG
+    creaPalette("textColors", (colore) => {
+      if (svgElement) {
+        // Cambia il colore di tutti gli elementi dell'SVG
+        const paths = svgElement.querySelectorAll("path, text, rect, circle, ellipse");
+        paths.forEach(path => path.setAttribute("fill", colore));
+      }
+    });
+
+    // Cambia il colore di sfondo dell'immagine da scaricare
+    const bgColorInput = document.getElementById("bgColors");
+    creaPalette("bgColors", (colore) => {
+      if (svgElement) {
+        svgElement.setAttribute("style", `color: ${svgElement.style.color}; background-color: ${colore}`);
+      }
+    });
+
+    // Funzione per il download del PNG
+    document.getElementById("downloadBtn").addEventListener("click", () => {
+      const svg = document.getElementById("nomeSVG");
+      const bgColor = svg.style.backgroundColor || "#ffffff"; // Colore di sfondo dell'immagine
+
+      const svgData = new XMLSerializer().serializeToString(svg);
+      const svgBlob = new Blob([svgData], {type: "image/svg+xml;charset=utf-8"});
+      const url = URL.createObjectURL(svgBlob);
+
+      const img = new Image();
+      img.onload = function () {
+        const canvas = document.createElement("canvas");
+        canvas.width = 1080;
+        canvas.height = 1920;
+        const ctx = canvas.getContext("2d");
+
+        // Colore di sfondo dell'immagine
+        ctx.fillStyle = bgColor;
+        ctx.fillRect(0, 0, canvas.width, canvas.height);
+
+        // Centrare l'immagine SVG sulla tela
+        const ratio = Math.min(canvas.width / img.width, canvas.height / img.height);
+        const x = (canvas.width - img.width * ratio) / 2;
+        const y = (canvas.height - img.height * ratio) / 2;
+        ctx.drawImage(img, x, y, img.width * ratio, img.height * ratio);
+
+        const link = document.createElement("a");
+        link.download = `${nome}.png`;
+        link.href = canvas.toDataURL("image/png");
+        link.click();
+        URL.revokeObjectURL(url);
+      };
+      img.src = url;
+    });
+  </script>
+</body>
+</html>
